@@ -1,0 +1,34 @@
+.rbc-calendar {
+  background: transparent;
+  color: white;
+}
+
+.rbc-toolbar button {
+  background: #7c3aed !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 10px;
+}
+
+.rbc-toolbar button:hover {
+  background: #6d28d9 !important;
+}
+
+.rbc-month-view,
+.rbc-time-view {
+  border: 1px solid #2d3748 !important;
+}
+
+.rbc-day-bg {
+  background: #0f172a;
+}
+
+.rbc-off-range-bg {
+  background: #111827;
+}
+
+.rbc-event {
+  background: #7c3aed !important;
+  border: none !important;
+  border-radius: 8px;
+}
