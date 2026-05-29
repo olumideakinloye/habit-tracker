@@ -15,6 +15,8 @@ const HabitsPage = () => {
     filteredHabits,
     search,
     setSearch,
+    setCategoryFilter,
+    setFrequencyFilter,
     toggleHabit,
     deleteHabit,
     saveHabit,
@@ -83,7 +85,7 @@ const HabitsPage = () => {
         backdrop-blur-2xl
       "
         >
-          <FilterBar search={search} setSearch={setSearch} />
+          <FilterBar search={search} setSearch={setSearch} setCategoryFilter={setCategoryFilter} setFrequencyFilter={setFrequencyFilter} />
         </div>
 
         {/* HABITS GRID SECTION */}
@@ -94,25 +96,29 @@ const HabitsPage = () => {
           />
 
           <div className="relative z-10">
-            <div
-              className="
+            {filteredHabits.length > 0 ? (
+              <div
+                className="
                   grid grid-cols-1
                   xl:grid-cols-2
                   gap-5 pb-5"
-            >
-              {filteredHabits.map((habit) => (
-                <HabitCard
-                  key={habit.id}
-                  habit={habit}
-                  toggleHabit={toggleHabit}
-                  deleteHabit={deleteHabit}
-                  editHabit={(habit) => {
-                    setEditHabit(habit);
-                    setShowForm(true);
-                  }}
-                />
-              ))}
-            </div>
+              >
+                {filteredHabits.map((habit) => (
+                  <HabitCard
+                    key={habit.id}
+                    habit={habit}
+                    toggleHabit={toggleHabit}
+                    deleteHabit={deleteHabit}
+                    editHabit={(habit) => {
+                      setEditHabit(habit);
+                      setShowForm(true);
+                    }}
+                  />
+                ))}
+              </div>
+            ) : (<div className="flex items-center justify-center h-48 w-full ">
+              <p className="text-white">No habits found.</p>
+            </div>)}
             {/* <HabitGrid
                 habits={filteredHabits}
                 toggleHabit={toggleHabit}

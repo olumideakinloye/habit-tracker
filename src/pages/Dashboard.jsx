@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import Stats from "../Components/Stats";
 import HabitCard from "../Components/Cards/Habitcard";
 import Sidebar from "../Components/Sidebar";
@@ -8,6 +9,10 @@ import HabitForm from "../components/HabitForm";
 import { useState, useEffect } from "react";
 import { useHabits } from "../hooks/useHabits";
 
+import {
+  getStreak,
+  isHabitDoneToday,
+} from "../utils/habitStats";
 
 import {
   Flame,
@@ -36,6 +41,8 @@ const Dashboard = () => {
     filteredHabits,
     search,
     setSearch,
+    setCategoryFilter,
+    setFrequencyFilter,
     toggleHabit,
     deleteHabit,
     saveHabit,
@@ -97,7 +104,7 @@ const Dashboard = () => {
         </div>
 
         {/* STATS */}
-       <Stats />
+        <Stats />
 
         {/* MAIN CONTENT */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-5">
@@ -105,34 +112,29 @@ const Dashboard = () => {
           <div className="xl:col-span-2 bg-[#111111] border border-gray-900 rounded-3xl p-6">
             <div className="flex justify-between items-center mb-5">
               <h2 className="text-2xl font-bold">Today's Habits</h2>
-
-              <button className="text-purple-400 hover:text-purple-300">
+              <NavLink to={"/habits"} className="text-purple-400 hover:text-purple-300">
                 View All
-              </button>
+              </NavLink>
             </div>
-
-            <div className="space-y-4">
-              <HabitCard
-                title="Morning Workout"
-                streak={12}
-                completed={false}
-                category="Fitness"
-              />
-
-              <HabitCard
-                title="Read 20 Pages"
-                streak={8}
-                completed={true}
-                category="Learning"
-              />
-
-              <HabitCard
-                title="Drink Water"
-                streak={15}
-                completed={false}
-                category="Health"
-              />
-            </div>
+            {filteredHabits.length > 0 ? (
+              <div className="space-y-4">
+                {filteredHabits.map((habit) => (
+                  <HabitCard
+                    key={habit.id}
+                    title={habit.title}
+                    habit={habit}
+                    streak={getStreak(habit)}
+                    completed={isHabitDoneToday(habit)}
+                    category={habit.category}
+                    toggleHabit={toggleHabit}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-48 w-full bg-amber-400">
+                <p className="text-white">No habits for today.</p>
+              </div>
+            )}
           </div>
 
           {/* FOCUS SESSION CARD */}
@@ -345,17 +347,19 @@ const Dashboard = () => {
         </div>
       </div>
       {/* Form Modal */}
-      {showForm && (
-        <HabitForm
-          habit={editHabit}
-          onSave={saveHabit}
-          onClose={() => {
-            setShowForm(false);
-            setEditHabit(null);
-          }}
-        />
-      )}
-    </div>
+      {
+        showForm && (
+          <HabitForm
+            habit={editHabit}
+            onSave={saveHabit}
+            onClose={() => {
+              setShowForm(false);
+              setEditHabit(null);
+            }}
+          />
+        )
+      }
+    </div >
   );
 };
 

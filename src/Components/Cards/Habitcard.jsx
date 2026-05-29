@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Habitcard = ({ title, streak, category, completed }) => {
+const Habitcard = ({ Key, title, habit, streak, category, completed, toggleHabit }) => {
   return (
     <div
       className="
@@ -38,12 +38,12 @@ const Habitcard = ({ title, streak, category, completed }) => {
 
       {/* Right Side */}
       <button
+        onClick={() => toggleHabit(habit.id)}
         className={`
           px-4 py-2 rounded-xl font-medium transition
-          ${
-            completed
-              ? "bg-green-500/20 text-green-400"
-              : "bg-purple-500 text-white hover:bg-purple-600"
+          ${completed
+            ? "bg-green-500/20 text-green-400"
+            : "bg-purple-500 text-white hover:bg-purple-600"
           }
         `}
       >

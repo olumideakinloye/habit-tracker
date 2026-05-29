@@ -5,13 +5,15 @@ import { habitMeta } from "../data/habitMeta";
 export default function FilterBar({
   search,
   setSearch,
+  setCategoryFilter,
+  setFrequencyFilter,
   habit,
 }) {
   const [button, setButton] = useState(
-    habit?.frequency || "daily"
+    habit?.frequency || "All"
   );
   const [category, setCategory] = useState(
-    habit?.category || "General"
+    habit?.category || "All"
   );
 
   const dropClasses = `
@@ -25,7 +27,7 @@ export default function FilterBar({
     text-white
     min-w-[200px]
   `;
- 
+
   const down = `
     absolute
     right-4
@@ -82,11 +84,21 @@ export default function FilterBar({
         >
           <select
             value={button}
-            onChange={(e) =>
-              setButton(e.target.value)
+            onChange={(e) => {
+              setButton(e.target.value);
+              if (e.target.value !== "All") {
+                setFrequencyFilter(e.target.value)
+              } else {
+                setFrequencyFilter("");
+              }
+            }
             }
             className={dropClasses}
           >
+            <option value="All">
+              All Frequencies
+            </option>
+
             <option value="daily">
               Daily
             </option>
@@ -95,11 +107,11 @@ export default function FilterBar({
               Weekly
             </option>
           </select>
-             <ChevronDown
-              size={18}
-              className={down}
-            />
-         
+          <ChevronDown
+            size={18}
+            className={down}
+          />
+
         </div>
 
         {/* CATEGORY */}
@@ -108,27 +120,36 @@ export default function FilterBar({
         >
           <select
             value={category}
-            onChange={(e) =>
-              setCategory(e.target.value)
+            onChange={(e) => {
+              setCategory(e.target.value);
+              if (e.target.value !== "All") {
+                setCategoryFilter(e.target.value)
+              } else {
+                setCategoryFilter("");
+              }
+            }
             }
             className={dropClasses}
-            
+
           >
-           {Object.entries(habitMeta).map(([emoji, meta]) => (
-            <option
-              key={emoji}
-              value={meta.category}
-            >
-              {meta.category}
+            <option value="All">
+              All Categories
             </option>
-          ))}
-          
+            {Object.entries(habitMeta).map(([emoji, meta]) => (
+              <option
+                key={emoji}
+                value={meta.category}
+              >
+                {meta.category}
+              </option>
+            ))}
+
           </select>
           <ChevronDown
             size={18}
             className={down}
           />
-         
+
         </div>
       </div>
     </div>

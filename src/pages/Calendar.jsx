@@ -1,5 +1,5 @@
 import React from 'react';
-import "../Calendar.css";ff
+import "../Calendar.css";
 import Sidebar from "../Components/Sidebar";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
