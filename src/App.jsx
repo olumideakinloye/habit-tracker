@@ -126,18 +126,16 @@ function AppRoutes() {
 // MAIN APP
 export default function App() {
   return (
-    <BrowserRouter>
-      <HashRouter>
-        <div
-          className="
+    <HashRouter>
+      <div
+        className="
           min-h-screen
           bg-black
           text-white
         "
-        >
-          <AppRoutes />
-        </div>
-      </HashRouter>
-    </BrowserRouter>
+      >
+        <AppRoutes />
+      </div>
+    </HashRouter>
   );
 }
