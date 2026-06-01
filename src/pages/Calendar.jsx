@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import Sidebar from "../Components/Sidebar";
+import Sidebar from "../components/Sidebar";
 import { Calendar, dateFnsLocalizer, Navigate, Views } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { format, parse, startOfWeek, getDay } from "date-fns";

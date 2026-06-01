@@ -1,9 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Stats from "../Components/Stats";
-import Habitcard from "../Components/Cards/Habitcard";
-import Sidebar from "../Components/Sidebar";
-import AddHabitBtn from "../Components/AddHabitBtn";
+import Stats from "../components/Stats";
+import Habitcard from "../components/Cards/Habitcard";
+import Sidebar from "../components/Sidebar";
+import AddHabitBtn from "../components/AddHabitBtn";
 import HabitForm from "../components/HabitForm";
 
 import { useState, useEffect } from "react";
