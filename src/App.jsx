@@ -1,5 +1,6 @@
 import {
   BrowserRouter,
+  HashRouter,
   Routes,
   Route,
   Navigate,
@@ -126,15 +127,17 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <div
-        className="
+      <HashRouter>
+        <div
+          className="
           min-h-screen
           bg-black
           text-white
         "
-      >
-        <AppRoutes />
-      </div>
+        >
+          <AppRoutes />
+        </div>
+      </HashRouter>
     </BrowserRouter>
   );
 }
