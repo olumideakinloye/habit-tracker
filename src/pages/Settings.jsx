@@ -1,46 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { getSession, logout, getRawUsers, saveRawUsers, updateStoredUser, getRawCurrentUser } from "../utils/auth";
 import Sidebar from "../components/Sidebar";
+import Modal from "../components/ui/Modal";
+import Icon from "../components/ui/iconMapping";
+import { icons } from "../utils/icons"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // auth.js storage helpers (mirrored here so Settings can write back directly)
 // ─────────────────────────────────────────────────────────────────────────────
 const USERS_KEY = "habittrack_users";
-
-
-
-// ── Inline SVG icon helper ────────────────────────────────────────────────
-const Icon = ({ d, size = 18, className = "", strokeWidth = 2, fill = "none" }) => (
-  <svg
-    width={size} height={size} viewBox="0 0 24 24"
-    fill={fill} stroke="currentColor"
-    strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round"
-    className={className}
-  >
-    {Array.isArray(d)
-      ? d.map((path, i) => <path key={i} d={path} />)
-      : <path d={d} />}
-  </svg>
-);
-
-const icons = {
-  user:     "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
-  lock:     ["M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2z","M7 11V7a5 5 0 0 1 10 0v4"],
-  bell:     ["M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9","M13.73 21a2 2 0 0 1-3.46 0"],
-  palette:  "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-2-8a2 2 0 1 0 4 0 2 2 0 0 0-4 0z",
-  shield:   ["M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"],
-  logout:   ["M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4","M16 17l5-5-5-5","M21 12H9"],
-  eye:      ["M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z","M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"],
-  eyeOff:   ["M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24","M1 1l22 22"],
-  check:    "M20 6L9 17l-5-5",
-  trash:    ["M3 6h18","M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"],
-  edit:     ["M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7","M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"],
-  info:     ["M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z","M12 8v4","M12 16h.01"],
-  download: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3",
-  close:    "M18 6L6 18M6 6l12 12",
-  danger:   ["M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z","M12 9v4","M12 17h.01"],
-  camera:   ["M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z","M12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"],
-};
 
 // ── Toast notification ────────────────────────────────────────────────────
 function Toast({ message, type, onDismiss }) {
@@ -51,8 +19,8 @@ function Toast({ message, type, onDismiss }) {
 
   const variants = {
     success: "border-l-green-500 border-green-500/30",
-    error:   "border-l-red-500   border-red-500/30",
-    info:    "border-l-purple-500 border-purple-500/30",
+    error: "border-l-red-500   border-red-500/30",
+    info: "border-l-purple-500 border-purple-500/30",
   };
   const iconMap = { success: icons.check, error: icons.danger, info: icons.info };
   const iconColor = { success: "text-green-400", error: "text-red-400", info: "text-purple-400" };
@@ -67,30 +35,6 @@ function Toast({ message, type, onDismiss }) {
     </div>
   );
 }
-
-// ── Modal ─────────────────────────────────────────────────────────────────
-function Modal({ title, children, onClose, danger = false }) {
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 backdrop-blur-sm animate-fade-in px-4"
-      onClick={e => e.target === e.currentTarget && onClose()}
-    >
-      <div className={`w-full max-w-md bg-gray-900 rounded-2xl p-7 shadow-2xl border animate-pop-in ${danger ? "border-red-500/30" : "border-white/10"}`}>
-        <div className="flex items-center justify-between mb-6">
-          <h3 className={`text-lg font-bold ${danger ? "text-red-400" : "text-slate-100"}`}>{title}</h3>
-          <button
-            onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 text-slate-400 hover:text-slate-200 hover:bg-white/10 transition-colors"
-          >
-            <Icon d={icons.close} size={15} />
-          </button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
-
 // ── Password input with show/hide ─────────────────────────────────────────
 function PasswordField({ label, value, onChange, placeholder, error }) {
   const [show, setShow] = useState(false);
@@ -122,15 +66,15 @@ function PasswordField({ label, value, onChange, placeholder, error }) {
 function StrengthBar({ password }) {
   const calc = (p) => {
     let s = 0;
-    if (p.length >= 8)           s++;
-    if (/[A-Z]/.test(p))         s++;
-    if (/[0-9]/.test(p))         s++;
-    if (/[^A-Za-z0-9]/.test(p))  s++;
+    if (p.length >= 8) s++;
+    if (/[A-Z]/.test(p)) s++;
+    if (/[0-9]/.test(p)) s++;
+    if (/[^A-Za-z0-9]/.test(p)) s++;
     return s;
   };
-  const strength   = password ? calc(password) : 0;
-  const labels     = ["", "Weak", "Fair", "Good", "Strong"];
-  const barColors  = ["", "bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-green-500"];
+  const strength = password ? calc(password) : 0;
+  const labels = ["", "Weak", "Fair", "Good", "Strong"];
+  const barColors = ["", "bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-green-500"];
   const textColors = ["", "text-red-400", "text-orange-400", "text-yellow-400", "text-green-400"];
 
   if (!password) return null;
@@ -216,9 +160,9 @@ export default function Settings({ onLogout }) {
     }))
   );
 
-  const [toast, setToast]       = useState(null);
-  const [modal, setModal]       = useState(null);
-  const [pwForm, setPwForm]     = useState({ current: "", next: "", confirm: "" });
+  const [toast, setToast] = useState(null);
+  const [modal, setModal] = useState(null);
+  const [pwForm, setPwForm] = useState({ current: "", next: "", confirm: "" });
   const [pwErrors, setPwErrors] = useState({});
   const [profileEdit, setProfileEdit] = useState(false);
   const [profileDraft, setProfileDraft] = useState({ name: user.name, email: user.email });
@@ -228,16 +172,16 @@ export default function Settings({ onLogout }) {
 
   // Persist notification + preference changes
   useEffect(() => { localStorage.setItem("habittrack_notifs", JSON.stringify(notifs)); }, [notifs]);
-  useEffect(() => { localStorage.setItem("habittrack_prefs",  JSON.stringify(prefs));  }, [prefs]);
+  useEffect(() => { localStorage.setItem("habittrack_prefs", JSON.stringify(prefs)); }, [prefs]);
 
   // ── Profile save ─────────────────────────────────────────────────────────
   // Writes name/email back into the habittrack_users array via updateStoredUser.
   const handleSaveProfile = () => {
-    if (!profileDraft.name.trim())          return showToast("Name cannot be empty", "error");
-    if (!profileDraft.email.includes("@"))  return showToast("Enter a valid email",  "error");
+    if (!profileDraft.name.trim()) return showToast("Name cannot be empty", "error");
+    if (!profileDraft.email.includes("@")) return showToast("Enter a valid email", "error");
 
     const updated = updateStoredUser(user.id, {
-      name:  profileDraft.name.trim(),
+      name: profileDraft.name.trim(),
       email: profileDraft.email.trim().toLowerCase(),
     });
 
@@ -289,15 +233,15 @@ export default function Settings({ onLogout }) {
   // Reads habits from the "habits" key managed by useHabits.js.
   const handleExportData = () => {
     const data = {
-      profile:     user,                          // sanitised — no password
-      habits:      JSON.parse(localStorage.getItem("habits") || "[]"),
+      profile: user,                          // sanitised — no password
+      habits: JSON.parse(localStorage.getItem("habits") || "[]"),
       notifs,
       prefs,
-      exportedAt:  new Date().toISOString(),
+      exportedAt: new Date().toISOString(),
     };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
     a.href = url; a.download = "habittrack-data.json"; a.click();
     URL.revokeObjectURL(url);
     showToast("Data exported successfully");
@@ -326,7 +270,7 @@ export default function Settings({ onLogout }) {
     setTimeout(() => onLogout?.(), 800);
   };
 
-  const accentColors = ["#a855f7","#22c55e","#3b82f6","#f97316","#ec4899","#14b8a6"];
+  const accentColors = ["#a855f7", "#22c55e", "#3b82f6", "#f97316", "#ec4899", "#14b8a6"];
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
@@ -442,10 +386,10 @@ export default function Settings({ onLogout }) {
           iconPath={icons.bell} title="Notifications" description="Control how you receive alerts"
           iconBg="bg-orange-500/20" iconColor="text-orange-400"
         >
-          <Toggle label="Daily Reminder"     sublabel="Remind me to log habits each day"   checked={notifs.dailyReminder} onChange={v => setNotifs(p => ({ ...p, dailyReminder: v }))} />
-          <Toggle label="Streak Alerts"      sublabel="Warn me before losing a streak"      checked={notifs.streakAlert}   onChange={v => setNotifs(p => ({ ...p, streakAlert:    v }))} />
-          <Toggle label="Weekly Report"      sublabel="Get a summary every Monday"          checked={notifs.weeklyReport}  onChange={v => setNotifs(p => ({ ...p, weeklyReport:   v }))} />
-          <Toggle label="Missed Habit Alert" sublabel="Notify me about uncompleted habits"  checked={notifs.missedHabit}   onChange={v => setNotifs(p => ({ ...p, missedHabit:    v }))} />
+          <Toggle label="Daily Reminder" sublabel="Remind me to log habits each day" checked={notifs.dailyReminder} onChange={v => setNotifs(p => ({ ...p, dailyReminder: v }))} />
+          <Toggle label="Streak Alerts" sublabel="Warn me before losing a streak" checked={notifs.streakAlert} onChange={v => setNotifs(p => ({ ...p, streakAlert: v }))} />
+          <Toggle label="Weekly Report" sublabel="Get a summary every Monday" checked={notifs.weeklyReport} onChange={v => setNotifs(p => ({ ...p, weeklyReport: v }))} />
+          <Toggle label="Missed Habit Alert" sublabel="Notify me about uncompleted habits" checked={notifs.missedHabit} onChange={v => setNotifs(p => ({ ...p, missedHabit: v }))} />
         </Section>
 
         {/* ── APPEARANCE ── */}
@@ -470,8 +414,8 @@ export default function Settings({ onLogout }) {
               ))}
             </div>
           </div>
-          <Toggle label="Show Streak Count" sublabel="Display streak number on habit cards" checked={prefs.showStreak}  onChange={v => setPrefs(p => ({ ...p, showStreak:  v }))} />
-          <Toggle label="Compact View"      sublabel="Reduce spacing for a denser layout"   checked={prefs.compactView} onChange={v => setPrefs(p => ({ ...p, compactView: v }))} />
+          <Toggle label="Show Streak Count" sublabel="Display streak number on habit cards" checked={prefs.showStreak} onChange={v => setPrefs(p => ({ ...p, showStreak: v }))} />
+          <Toggle label="Compact View" sublabel="Reduce spacing for a denser layout" checked={prefs.compactView} onChange={v => setPrefs(p => ({ ...p, compactView: v }))} />
         </Section>
 
         {/* ── DATA & PRIVACY ── */}
@@ -518,7 +462,7 @@ export default function Settings({ onLogout }) {
       {modal === "password" && (
         <Modal
           title="Change Password"
-          onClose={() => { setModal(null); setPwForm({ current:"",next:"",confirm:"" }); setPwErrors({}); }}
+          onClose={() => { setModal(null); setPwForm({ current: "", next: "", confirm: "" }); setPwErrors({}); }}
         >
           <PasswordField
             label="Current Password"

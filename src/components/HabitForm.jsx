@@ -89,25 +89,8 @@ export default function HabitForm({ habit, onSave, onClose }) {
   };
 
   return (
-    <Modal onClose={onClose}>
+    <Modal title={habit ? "Edit Habit" : "Create Habit"} subtitle={"Build consistency one day at a time."} onClose={onClose}>
       <form className="space-y-6" onSubmit={handleSave}>
-        {/* HEADER */}
-        <div>
-          <h2
-            className="
-              text-3xl
-              font-black
-              text-white
-            "
-          >
-            {habit ? "Edit Habit" : "Create Habit"}
-          </h2>
-
-          <p className="text-gray-400 mt-2">
-            Build consistency one day at a time.
-          </p>
-        </div>
-
         {/* TITLE */}
         <div>
           <label className={labelClasses}>Habit Title</label>

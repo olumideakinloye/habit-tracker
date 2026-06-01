@@ -6,17 +6,17 @@ import { useState } from "react";
 import { login } from "../utils/auth";   // adjust path if needed
 
 export default function Login({ onSuccess, onSignup }) {
-  const [email,    setEmail]    = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error,    setError]    = useState("");
-  const [loading,  setLoading]  = useState(false);
-  const [showPw,   setShowPw]   = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPw, setShowPw] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    if (!email.trim())    return setError("Email is required.");
-    if (!password)        return setError("Password is required.");
+    if (!email.trim()) return setError("Email is required.");
+    if (!password) return setError("Password is required.");
 
     setLoading(true);
     // Tiny artificial delay so it feels real
@@ -42,8 +42,8 @@ export default function Login({ onSuccess, onSignup }) {
         <div style={styles.logoRow}>
           <div style={styles.logoIcon}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M9 12l2 2 4-4" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="12" cy="12" r="9" stroke="#fff" strokeWidth="2"/>
+              <path d="M9 12l2 2 4-4" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="12" cy="12" r="9" stroke="#fff" strokeWidth="2" />
             </svg>
           </div>
           <span style={styles.logoText}>Habit<span style={styles.logoAccent}>Track</span></span>
@@ -59,8 +59,8 @@ export default function Login({ onSuccess, onSignup }) {
             <div style={styles.inputWrap}>
               <span style={styles.inputIcon}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <rect x="2" y="4" width="20" height="16" rx="3" stroke="#9d5bf7" strokeWidth="1.8"/>
-                  <path d="M2 8l10 6 10-6" stroke="#9d5bf7" strokeWidth="1.8" strokeLinecap="round"/>
+                  <rect x="2" y="4" width="20" height="16" rx="3" stroke="#9d5bf7" strokeWidth="1.8" />
+                  <path d="M2 8l10 6 10-6" stroke="#9d5bf7" strokeWidth="1.8" strokeLinecap="round" />
                 </svg>
               </span>
               <input
@@ -70,8 +70,8 @@ export default function Login({ onSuccess, onSignup }) {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 autoComplete="email"
-                onFocus={e  => Object.assign(e.target.style, styles.inputFocus)}
-                onBlur={e   => Object.assign(e.target.style, styles.inputBlur)}
+                onFocus={e => Object.assign(e.target.style, styles.inputFocus)}
+                onBlur={e => Object.assign(e.target.style, styles.inputBlur)}
               />
             </div>
           </div>
@@ -82,8 +82,8 @@ export default function Login({ onSuccess, onSignup }) {
             <div style={styles.inputWrap}>
               <span style={styles.inputIcon}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="11" width="18" height="11" rx="2" stroke="#9d5bf7" strokeWidth="1.8"/>
-                  <path d="M7 11V7a5 5 0 0110 0v4" stroke="#9d5bf7" strokeWidth="1.8" strokeLinecap="round"/>
+                  <rect x="3" y="11" width="18" height="11" rx="2" stroke="#9d5bf7" strokeWidth="1.8" />
+                  <path d="M7 11V7a5 5 0 0110 0v4" stroke="#9d5bf7" strokeWidth="1.8" strokeLinecap="round" />
                 </svg>
               </span>
               <input
@@ -93,13 +93,13 @@ export default function Login({ onSuccess, onSignup }) {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 autoComplete="current-password"
-                onFocus={e  => Object.assign(e.target.style, styles.inputFocus)}
-                onBlur={e   => Object.assign(e.target.style, styles.inputBlur)}
+                onFocus={e => Object.assign(e.target.style, styles.inputFocus)}
+                onBlur={e => Object.assign(e.target.style, styles.inputBlur)}
               />
               <button type="button" onClick={() => setShowPw(p => !p)} style={styles.eyeBtn} tabIndex={-1}>
                 {showPw
-                  ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19M1 1l22 22" stroke="#888" strokeWidth="1.8" strokeLinecap="round"/></svg>
-                  : <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#888" strokeWidth="1.8"/><circle cx="12" cy="12" r="3" stroke="#888" strokeWidth="1.8"/></svg>
+                  ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19M1 1l22 22" stroke="#888" strokeWidth="1.8" strokeLinecap="round" /></svg>
+                  : <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="#888" strokeWidth="1.8" /><circle cx="12" cy="12" r="3" stroke="#888" strokeWidth="1.8" /></svg>
                 }
               </button>
             </div>
@@ -108,9 +108,9 @@ export default function Login({ onSuccess, onSignup }) {
           {/* Error */}
           {error && (
             <div style={styles.error}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{flexShrink:0}}>
-                <circle cx="12" cy="12" r="10" stroke="#ef4444" strokeWidth="1.8"/>
-                <path d="M12 8v4M12 16h.01" stroke="#ef4444" strokeWidth="2" strokeLinecap="round"/>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                <circle cx="12" cy="12" r="10" stroke="#ef4444" strokeWidth="1.8" />
+                <path d="M12 8v4M12 16h.01" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
               </svg>
               {error}
             </div>
@@ -121,7 +121,7 @@ export default function Login({ onSuccess, onSignup }) {
             onMouseEnter={e => !loading && Object.assign(e.target.style, styles.btnHover)}
             onMouseLeave={e => !loading && Object.assign(e.target.style, styles.btnBase)}>
             {loading
-              ? <span style={styles.spinner}/>
+              ? <span style={styles.spinner} />
               : "Sign In"
             }
           </button>
@@ -148,6 +148,7 @@ const styles = {
     justifyContent: "center",
     fontFamily: "'Sora', 'Segoe UI', sans-serif",
     position: "relative",
+    padding: "0 5%",
     overflow: "hidden",
   },
   orb1: {
@@ -205,7 +206,7 @@ const styles = {
     fontFamily: "inherit", transition: "border-color .18s, box-shadow .18s",
   },
   inputFocus: { borderColor: "#7c3aed", boxShadow: "0 0 0 3px rgba(124,58,237,0.18)" },
-  inputBlur:  { borderColor: "rgba(124,58,237,0.22)", boxShadow: "none" },
+  inputBlur: { borderColor: "rgba(124,58,237,0.22)", boxShadow: "none" },
   eyeBtn: {
     position: "absolute", right: 12, background: "none", border: "none",
     cursor: "pointer", padding: 4, display: "flex", alignItems: "center", color: "#888",
@@ -227,7 +228,7 @@ const styles = {
     transition: "transform .15s, box-shadow .15s",
     fontFamily: "inherit",
   },
-  btnBase:  { transform: "translateY(0)",  boxShadow: "0 4px 20px rgba(124,58,237,0.4)" },
+  btnBase: { transform: "translateY(0)", boxShadow: "0 4px 20px rgba(124,58,237,0.4)" },
   btnHover: { transform: "translateY(-2px)", boxShadow: "0 8px 28px rgba(124,58,237,0.55)" },
   spinner: {
     width: 18, height: 18, border: "2.5px solid rgba(255,255,255,0.3)",
