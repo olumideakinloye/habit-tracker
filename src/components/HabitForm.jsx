@@ -83,7 +83,7 @@ export default function HabitForm({ habit, onSave, onClose }) {
       reminder,
 
       reminderOn,
-    });
+    }, habit);
 
     onClose();
   };
