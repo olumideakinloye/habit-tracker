@@ -69,7 +69,7 @@ const Sidebar = () => {
             {nav.map((item) => (
               <NavLink key={item.title} to={item.to} >
                 {({ isActive }) => (
-                  <div div className={`
+                  <div className={`
                     ${isActive
                       ? `text-white ${item.bgColor}`
                       : `text-gray-300 ${item.hoverBg} hover:text-white`
@@ -101,22 +101,22 @@ const Sidebar = () => {
               </NavLink>
             ))}
           </nav>
-          <div className="absolute w-full bottom-0 left-0 flex gap-4 ">
+          <div className="absolute w-full bottom-0 left-0 flex gap-4 translate-x-3">
             <div className="w-16 h-16 rounded-full border-2 border-purple-500/40 overflow-hidden flex items-center justify-center bg-linear-to-br from-purple-500 to-indigo-600 text-white text-xl font-bold">
               {user.avatar
                 ? <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" />
                 : user.name?.[0]?.toUpperCase()}
             </div>
-            <div className="flex flex-col justify-center">
-              <p className="text-white font-medium">{user.name}</p>
-              <p className="text-gray-400 text-sm">{user.email}</p>
+            <div className="flex flex-col justify-center w-37">
+              <p className="text-white font-medium truncate">{user.name}</p>
+              <p className="text-gray-400 text-sm truncate">{user.email}</p>
             </div>
           </div>
         </div>
       </div >
 
       {/* ── Mobile Bottom Tab Bar ── */}
-      <div div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#111111] border-t border-gray-900 px-2 py-2 flex justify-around items-center" >
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#111111] border-t border-gray-900 px-2 py-2 flex justify-around items-center" >
         {
           nav.map((item) => (
             <NavLink key={item.title} to={item.to} >

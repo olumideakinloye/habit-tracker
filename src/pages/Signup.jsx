@@ -221,7 +221,7 @@ const styles = {
     minHeight: "100vh", background: "#0f0f1a",
     display: "flex", alignItems: "center", justifyContent: "center",
     fontFamily: "'Sora', 'Segoe UI', sans-serif",
-    position: "relative", overflow: "hidden", padding: "24px 0",
+    position: "relative", overflow: "hidden", padding: "24px 5%",
   },
   orb1: { position:"absolute", width:480, height:480, borderRadius:"50%", top:-160, left:-180, background:"radial-gradient(circle, rgba(124,58,237,0.16) 0%, transparent 70%)", pointerEvents:"none" },
   orb2: { position:"absolute", width:350, height:350, borderRadius:"50%", bottom:-120, right:-100, background:"radial-gradient(circle, rgba(157,91,247,0.12) 0%, transparent 70%)", pointerEvents:"none" },
