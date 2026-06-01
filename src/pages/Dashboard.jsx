@@ -1,18 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Stats from "../Components/Stats";
-import HabitCard from "../Components/Cards/Habitcard";
+import Habitcard from "../Components/Cards/Habitcard";
 import Sidebar from "../Components/Sidebar";
 import AddHabitBtn from "../Components/AddHabitBtn";
 import HabitForm from "../components/HabitForm";
 
 import { useState, useEffect } from "react";
 import { useHabits } from "../hooks/useHabits";
-
-import {
-  getStreak,
-  isHabitDoneToday,
-} from "../utils/habitStats";
 
 import {
   Flame,
@@ -81,15 +76,20 @@ const Dashboard = () => {
     setIsRunning(false);
   };
 
-  return (
-    <div className="relative flex bg-black text-white w-full gap-6 md:gap-3">
-      <Sidebar />
-      <div className="col pr-6 pt-5 md:pr-3 w-full">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-5 gap-4">
-          <div>
-            <h1 className="text-3xl font-bold">Dashboard</h1>
+  const radius = 120;
 
-            <p className="text-gray-400 mt-1">
+  const circumference =
+    2 * Math.PI * radius;
+
+  return (
+    <div className="relative flex bg-black text-white w-full gap-6 md:gap-3 min-h-screen">
+      <Sidebar />
+      <div className="col px-4 pb-25 pt-6 md:pb-6 md:pr-6 w-full">
+        <div className="flex justify-between items-start sm:items-center mb-5 gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold">Dashboard</h1>
+
+            <p className="text-gray-400 mt-1 text-sm md:text-base">
               Track your daily habits and progress
             </p>
           </div>
@@ -104,12 +104,12 @@ const Dashboard = () => {
         </div>
 
         {/* STATS */}
-        <Stats />
+        <Stats habits={filteredHabits} />
 
         {/* MAIN CONTENT */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-5">
           {/* TODAY'S HABITS */}
-          <div className="xl:col-span-2 bg-[#111111] border border-gray-900 rounded-3xl p-6">
+          <div className="lg:col-span-2 bg-[#111111] border border-gray-900 rounded-3xl p-6">
             <div className="flex justify-between items-center mb-5">
               <h2 className="text-2xl font-bold">Today's Habits</h2>
               <NavLink to={"/habits"} className="text-purple-400 hover:text-purple-300">
@@ -119,19 +119,14 @@ const Dashboard = () => {
             {filteredHabits.length > 0 ? (
               <div className="space-y-4">
                 {filteredHabits.map((habit) => (
-                  <HabitCard
-                    key={habit.id}
-                    title={habit.title}
+                  <Habitcard
                     habit={habit}
-                    streak={getStreak(habit)}
-                    completed={isHabitDoneToday(habit)}
-                    category={habit.category}
                     toggleHabit={toggleHabit}
                   />
                 ))}
               </div>
             ) : (
-              <div className="flex items-center justify-center h-48 w-full bg-amber-400">
+              <div className="flex items-center justify-center h-48 w-full">
                 <p className="text-white">No habits for today.</p>
               </div>
             )}
@@ -161,32 +156,56 @@ const Dashboard = () => {
           "
             ></div>
 
-            <div className="relative z-10">
-              <h2 className="text-2xl font-bold mb-6">Focus Session</h2>
+            <div className="relative z-10 flex flex-col items-center">
+              <h2 className="text-2xl font-bold mb-6 w-full">Focus Session</h2>
 
               {/* TIMER */}
-              <div className="flex relative items-center justify-center mb-8 w-full aspect-square">
-                <svg className="absolute w-full h-full rotate-[-90deg]">
+              <div className="flex relative items-center justify-center mb-3 lg:mb-8 w-full aspect-square lg:max-w-full max-w-100">
+                <svg
+                  viewBox="0 0 300 300"
+                  className="
+                    absolute
+                    inset-0
+                    w-full
+                    h-full
+                    -rotate-90
+                  "
+                >
+                  {/* Background Circle */}
                   <circle
-                    cx="140"
-                    cy="140"
-                    r="125"
+                    cx="150"
+                    cy="150"
+                    r={radius}
                     stroke="#2a2a2a"
                     strokeWidth="12"
                     fill="none"
                   />
 
+                  {/* Progress Circle */}
                   <circle
-                    cx="140"
-                    cy="140"
-                    r="125"
+                    cx="150"
+                    cy="150"
+                    r={radius}
                     stroke="#a855f7"
                     strokeWidth="12"
                     fill="none"
                     strokeLinecap="round"
-                    strokeDasharray={785}
-                    strokeDashoffset={785 - (785 * progress) / 100}
-                    className="transition-all duration-1000 drop-shadow-[0_0_5px_#a855f7]"
+
+                    strokeDasharray={
+                      circumference
+                    }
+
+                    strokeDashoffset={
+                      circumference -
+                      (circumference * progress) /
+                      100
+                    }
+
+                    className="
+                      transition-all
+                      duration-1000
+                      drop-shadow-[0_0_5px_#a855f7]
+                    "
                   />
                 </svg>
                 <div className="text-center">
@@ -203,7 +222,8 @@ const Dashboard = () => {
               border border-gray-800
               rounded-2xl
               p-4
-              mb-6
+              lg:mb-6
+              w-full
             "
               >
                 <p className="text-gray-400 text-sm">Currently Focusing On</p>
@@ -211,7 +231,7 @@ const Dashboard = () => {
                 <h3 className="font-semibold text-lg mt-1">📚 Read 20 Pages</h3>
               </div>
               {/* TIMER INPUTS */}
-              <div className="flex flex-col mt-10 mb-10 gap-3">
+              <div className="flex flex-col mt-7 lg:mt-10 mb-5 lg:mb-10 gap-3">
                 <button
                   onClick={handleSetTimer}
                   disabled={isRunning}
@@ -293,7 +313,7 @@ const Dashboard = () => {
                 </div>
               </div>
               {/* TIMER CONTROLS */}
-              <div className="flex justify-center gap-4 mb-6">
+              <div className="flex justify-center gap-4">
                 <button
                   onClick={() => setIsRunning(true)}
                   disabled={isRunning}

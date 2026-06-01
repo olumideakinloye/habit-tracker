@@ -11,17 +11,9 @@ import {
   CircleX,
 } from "lucide-react";
 
-export default function Stats() {
-  const {
-    filteredHabits,
-    search,
-    setSearch,
-    toggleHabit,
-    deleteHabit,
-    saveHabit,
-  } = useHabits();
+export default function Stats({ habits }) {
 
-  const { totalHabits, completedToday, missedHabits, currentStreak } = stats(filteredHabits);
+  const { totalHabits, completedToday, missedHabits, currentStreak } = stats(habits);
 
   const statBlocks = [
     {

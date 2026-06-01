@@ -1,6 +1,14 @@
 import React from 'react'
+import {
+  getStreak,
+  isHabitDoneToday,
+} from "../../utils/habitStats";
 
-const Habitcard = ({ Key, title, habit, streak, category, completed, toggleHabit }) => {
+const Habitcard = ({ habit, toggleHabit, }) => {
+  const streak = getStreak(habit);
+
+  const completed =
+    isHabitDoneToday(habit);
   return (
     <div
       className="
@@ -18,7 +26,7 @@ const Habitcard = ({ Key, title, habit, streak, category, completed, toggleHabit
       <div>
 
         <p className="text-lg font-semibold">
-          {title}
+          {habit.title}
         </p>
 
         <div className="flex gap-3 mt-2 text-sm text-gray-400">
@@ -28,7 +36,7 @@ const Habitcard = ({ Key, title, habit, streak, category, completed, toggleHabit
           </span>
 
           <span>
-            {category}
+            {habit.category}
           </span>
 
         </div>

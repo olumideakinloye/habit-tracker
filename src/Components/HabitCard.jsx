@@ -27,7 +27,7 @@ const HabitCard = ({ habit, toggleHabit, editHabit, deleteHabit }) => {
   return (
     <div
       className="
-        bg-[#1a1a2e]
+        bg-[#171717]
         border border-white/5
         rounded-3xl
         p-6
@@ -35,7 +35,7 @@ const HabitCard = ({ habit, toggleHabit, editHabit, deleteHabit }) => {
         hover:-translate-y-1
       "
       style={{
-        boxShadow: `0 0 5px 1px ${color}`,
+        boxShadow: `0 0 5px 1px ${color}80`,
       }}
     >
       {/* TOP */}

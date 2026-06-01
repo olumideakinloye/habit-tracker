@@ -23,48 +23,22 @@ const HabitsPage = () => {
   } = useHabits();
 
   return (
-    <div className="relative flex bg-black text-white w-full gap-6 md:gap-3">
+    <div className="relative flex bg-black text-white w-full gap-6 md:gap-3 min-h-screen">
       <Sidebar />
       <div
-        className="col pr-6 pt-5 md:pr-3 w-full relative flex flex-col min-h-full text-white"
+        className="col px-4 pt-6 pb-20 md:pr-6 md:pb-0 w-full relative flex flex-col min-h-full text-white"
       >
         {/* HEADER */}
         <div
-          className="pb-3 flex flex-col xl:flex-row items-start xl:items-center justify-between gap-6"
+          className="pb-3 flex items-start justify-between"
         >
           <div>
-            {/* TITLE */}
-            <h1
-              className="
-            text-5xl
-            font-black
-            tracking-tight
-            leading-none
+            <h1 className="text-2xl md:text-3xl font-bold">My Habits</h1>
 
-            bg-linear-to-r
-            from-white
-            via-violet-200
-            to-cyan-200
-
-            bg-clip-text
-            text-transparent
-          "
-            >
-              My Habits
-            </h1>
-
-            {/* SUBTITLE */}
-            <p
-              className="
-            mt-4
-            text-base
-            text-slate-400
-          "
-            >
+            <p className="text-gray-400 mt-1 text-sm md:text-base">
               {filteredHabits.length} habits tracked
             </p>
           </div>
-
           {/* BUTTON */}
           <AddHabitBtn
             onAdd={() => {
@@ -100,8 +74,10 @@ const HabitsPage = () => {
               <div
                 className="
                   grid grid-cols-1
-                  xl:grid-cols-2
-                  gap-5 pb-5"
+                  lg:grid-cols-2
+                  lg:px-0
+                  md:px-20
+                  lg:gap-5 pb-5 gap-7"
               >
                 {filteredHabits.map((habit) => (
                   <HabitCard

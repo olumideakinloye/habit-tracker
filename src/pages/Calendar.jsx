@@ -97,10 +97,10 @@ const Calendarpage = () => {
   });
 
   return (
-    <div className="relative flex flex-col md:flex-row bg-black text-white gap-6 md:gap-3">
+    <div className="relative flex flex-col md:flex-row bg-black text-white gap-6 md:gap-3 min-h-screen">
       <Sidebar />
 
-      <div className="md:pr-6 px-4 md:pr-3 w-full min-w-0 pb-24 md:pb-7 md:pt-6">
+      <div className="pt-6 px-4 w-full min-w-0 pb-24 md:pr-6 md:pb-7">
 
         {/* Page Header */}
         <div className="flex flex-col mb-5">

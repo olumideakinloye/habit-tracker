@@ -18,21 +18,26 @@ export default function FilterBar({
 
   const dropClasses = `
     appearance-none
-    bg-[#1a1a2e]
+    bg-[#171717]
     border border-white/3
     outline-none
     rounded-2xl
-    px-5 py-4
+    pl-3 pr-5
+    md:px-5 md:py-4
+    py-2
     flex justify-between items-center
     text-white
-    min-w-[200px]
+    w-[150px]
+    md:min-w-[200px]
   `;
 
   const down = `
     absolute
-    right-4
-    top-1/2
-    -translate-y-1/2
+    right-2
+    md:right-4
+    top-0
+    bottom-0
+    m-auto
     pointer-events-none
     text-gray-400       
   `;
@@ -48,10 +53,10 @@ export default function FilterBar({
       <div
         className="
           flex items-center gap-3
-          bg-[#1a1a2e]
+          bg-[#171717]
           border border-white/5
           rounded-2xl
-          px-4 py-4
+          px-4 py-2 md:py-4
           w-full xl:w-[320px]
         "
       >
@@ -80,7 +85,7 @@ export default function FilterBar({
       <div className="flex gap-4">
         {/* FREQUENCY */}
         <div
-          className="relative min-w-[200px]"
+          className="relative min-w-37.5 md:min-w-50"
         >
           <select
             value={button}
@@ -116,7 +121,7 @@ export default function FilterBar({
 
         {/* CATEGORY */}
         <div
-          className="relative min-w-[200px]"
+          className="relative min-w-37.5 md:min-w-50"
         >
           <select
             value={category}
