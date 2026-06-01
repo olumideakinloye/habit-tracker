@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
-import Sidebar from "../components/Sidebar";
-import FilterBar from "../components/FilterBar";
-import HabitCard from "../components/HabitCard";
-import HabitForm from "../components/HabitForm";
+import Sidebar from "../Components/Sidebar";
+import FilterBar from "../Components/FilterBar";
+import HabitCard from "../Components/HabitCard";
+import HabitForm from "../Components/HabitForm";
 import AddHabitBtn from "../Components/AddHabitBtn";
 
 import { useHabits } from "../hooks/useHabits";

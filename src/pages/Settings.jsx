@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { getSession, logout, getRawUsers, saveRawUsers, updateStoredUser, getRawCurrentUser } from "../utils/auth";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../Components/Sidebar";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // auth.js storage helpers (mirrored here so Settings can write back directly)
