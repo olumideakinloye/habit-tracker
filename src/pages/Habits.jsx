@@ -95,11 +95,6 @@ const HabitsPage = () => {
             ) : (<div className="flex items-center justify-center h-48 w-full ">
               <p className="text-white">No habits found.</p>
             </div>)}
-            {/* <HabitGrid
-                habits={filteredHabits}
-                toggleHabit={toggleHabit}
-                deleteHabit={deleteHabit}
-              /> */}
           </div>
         </div>
       </div>

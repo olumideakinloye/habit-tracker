@@ -1,14 +1,14 @@
-import React from 'react'
+import React from "react";
 import {
   getStreak,
-  isHabitDoneToday,
+  isHabitCompleted,
 } from "../../utils/habitStats";
 
-const Habitcard = ({ habit, toggleHabit, }) => {
+const Habitcard = ({ habit, toggleHabit }) => {
   const streak = getStreak(habit);
 
-  const completed =
-    isHabitDoneToday(habit);
+  const completed = isHabitCompleted(habit);
+
   return (
     <div
       className="
@@ -21,28 +21,26 @@ const Habitcard = ({ habit, toggleHabit, }) => {
         transition-all duration-300
       "
     >
-
       {/* Left Side */}
       <div>
-
         <p className="text-lg font-semibold">
           {habit.title}
         </p>
 
         <div className="flex gap-3 mt-2 text-sm text-gray-400">
-
           <span>
-            🔥 {streak} day streak
+            🔥 {streak}
+            {habit.frequency === "weekly" ? " week" : " day"}
+            {streak !== 1 ? "s" : ""} streak
           </span>
 
-          <span>
-            {habit.category}
-          </span>
+          <span>{habit.category}</span>
 
+          <span className="capitalize">
+            {habit.frequency}
+          </span>
         </div>
-
       </div>
-
 
       {/* Right Side */}
       <button
@@ -55,11 +53,14 @@ const Habitcard = ({ habit, toggleHabit, }) => {
           }
         `}
       >
-        {completed ? "Completed" : "Mark Done"}
+        {completed
+          ? habit.frequency === "weekly"
+            ? "Done This Week"
+            : "Completed"
+          : "Mark Done"}
       </button>
-
     </div>
-  )
-}
+  );
+};
 
-export default Habitcard
+export default Habitcard;

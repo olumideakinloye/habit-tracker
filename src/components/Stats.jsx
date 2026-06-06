@@ -21,7 +21,7 @@ export default function Stats({ habits }) {
       value: totalHabits,
       icon: <Target size={20} />,
       color: "text-blue-400",
-      bgColor: "bg-blue-400/30",
+      bgColor: "bg-blue-400/20",
     },
 
     {
@@ -29,7 +29,7 @@ export default function Stats({ habits }) {
       value: completedToday,
       icon: <CheckCircle2 size={20} />,
       color: "text-green-400",
-      bgColor: "bg-green-400/30"
+      bgColor: "bg-green-400/20"
     },
 
     {
@@ -37,7 +37,7 @@ export default function Stats({ habits }) {
       value: currentStreak,
       icon: <Flame size={20} />,
       color: "text-orange-400",
-      bgColor: "bg-orange-400/30"
+      bgColor: "bg-orange-400/20"
     },
 
     {
@@ -45,7 +45,7 @@ export default function Stats({ habits }) {
       value: missedHabits,
       icon: <CircleX size={20} />,
       color: "text-red-400",
-      bgColor: "bg-red-400/30"
+      bgColor: "bg-red-400/20"
     }
   ]
 

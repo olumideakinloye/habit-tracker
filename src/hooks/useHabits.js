@@ -2,6 +2,22 @@ import { useEffect, useMemo, useState } from "react";
 
 const today = new Date().toISOString().split("T")[0];
 
+const isDateInCurrentWeek = (dateString) => {
+  const date = new Date(dateString);
+
+  const now = new Date();
+
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay());
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6);
+  endOfWeek.setHours(23, 59, 59, 999);
+
+  return date >= startOfWeek && date <= endOfWeek;
+};
+
 export const useHabits = () => {
   // HABITS STATE
   const [habits, setHabits] = useState(() => {
@@ -30,16 +46,34 @@ export const useHabits = () => {
       prev.map((habit) => {
         if (habit.id !== id) return habit;
 
-        const alreadyDone = habit.completedDates.includes(today);
+        // DAILY HABITS
+        if (habit.frequency === "daily") {
+          const alreadyDoneToday =
+            habit.completedDates.includes(today);
+
+          return {
+            ...habit,
+            completedDates: alreadyDoneToday
+              ? habit.completedDates.filter(
+                (date) => date !== today
+              )
+              : [...habit.completedDates, today],
+          };
+        }
+
+        // WEEKLY HABITS
+        const completedThisWeek =
+          habit.completedDates.some(isDateInCurrentWeek);
 
         return {
           ...habit,
-
-          completedDates: alreadyDone
-            ? habit.completedDates.filter((date) => date !== today)
+          completedDates: completedThisWeek
+            ? habit.completedDates.filter(
+              (date) => !isDateInCurrentWeek(date)
+            )
             : [...habit.completedDates, today],
         };
-      }),
+      })
     );
   };
 
@@ -57,9 +91,9 @@ export const useHabits = () => {
         prev.map((habit) =>
           habit.id === editHabit.id
             ? {
-                ...habit,
-                ...formData,
-              }
+              ...habit,
+              ...formData,
+            }
             : habit,
         ),
       );

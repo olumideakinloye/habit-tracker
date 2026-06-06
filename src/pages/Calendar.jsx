@@ -59,7 +59,23 @@ const Calendarpage = () => {
 
       while (cursor <= endDate) {
         const dateStr = cursor.toISOString().split("T")[0];
-        const isCompleted = habit.completedDates.includes(dateStr);
+        const isCompleted =
+          habit.frequency === "weekly"
+            ? habit.completedDates.some((d) => {
+              const completedDate = new Date(d);
+              const currentDate = new Date(dateStr);
+
+              const startOfWeek = new Date(currentDate);
+              startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
+              startOfWeek.setHours(0, 0, 0, 0);
+
+              const endOfWeek = new Date(startOfWeek);
+              endOfWeek.setDate(startOfWeek.getDate() + 6);
+              endOfWeek.setHours(23, 59, 59, 999);
+
+              return completedDate >= startOfWeek && completedDate <= endOfWeek;
+            })
+            : habit.completedDates.includes(dateStr);
         const shouldShow =
           habit.frequency === "weekly"
             ? cursor.getDay() === createdAt.getDay()
@@ -123,6 +139,17 @@ const Calendarpage = () => {
                 const streak = getStreak(habit);
                 const color = habitMeta[habit.icon]?.color ?? "#a855f7";
                 const isActive = streak > 0;
+                const streakLabel =
+                  streak === 0
+                    ? "No streak"
+                    : `${streak} ${habit.frequency === "weekly"
+                      ? streak === 1
+                        ? "week"
+                        : "weeks"
+                      : streak === 1
+                        ? "day"
+                        : "days"
+                    } streak`;
 
                 return (
                   <div
@@ -158,11 +185,7 @@ const Calendarpage = () => {
 
                     {/* Streak label */}
                     <p className="text-[10px] text-gray-600">
-                      {streak === 0
-                        ? "No streak"
-                        : streak === 1
-                        ? "1 day streak"
-                        : `${streak} day streak`}
+                      {streakLabel}
                     </p>
                   </div>
                 );
@@ -229,7 +252,7 @@ const Calendarpage = () => {
             view={Views.MONTH}
             date={date}
             onNavigate={(newDate) => setDate(newDate)}
-            onView={() => {}}
+            onView={() => { }}
             eventPropGetter={eventPropGetter}
             components={{ toolbar: CustomToolbar }}
             style={{ height: "70vh", color: "#fff", background: "transparent" }}

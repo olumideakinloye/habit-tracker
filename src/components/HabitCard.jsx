@@ -5,6 +5,7 @@ import {
   getTotalLogs,
   getThisWeekCount,
   isHabitDoneToday,
+  isHabitCompleted
 } from "../utils/habitStats";
 
 const categoryColors = {
@@ -21,7 +22,7 @@ const HabitCard = ({ habit, toggleHabit, editHabit, deleteHabit }) => {
 
   const thisWeek = getThisWeekCount(habit);
 
-  const isDoneToday = isHabitDoneToday(habit);
+  const isCompleted = isHabitCompleted(habit);
 
   const color = habit.color || categoryColors[habit.category] || "#64748b";
   return (
@@ -157,13 +158,9 @@ const HabitCard = ({ habit, toggleHabit, editHabit, deleteHabit }) => {
           >
             <Flame size={16} className="text-orange-500" />
 
-            <span
-              className="
-              text-xl
-              font-bold
-            "
-            >
-              {streak}d
+            <span className="text-xl font-bold">
+              {streak}
+              {habit.frequency === "weekly" ? "w" : "d"}
             </span>
           </div>
         </div>
@@ -201,44 +198,51 @@ const HabitCard = ({ habit, toggleHabit, editHabit, deleteHabit }) => {
             This Week
           </p>
 
-          <h3
-            className="
-            text-xl
-            font-bold
-          "
-          >
-            {thisWeek}
+          <h3 className="text-xl font-bold">
+            {habit.frequency === "weekly"
+              ? isCompleted
+                ? "✓"
+                : "—"
+              : thisWeek}
           </h3>
         </div>
       </div>
 
       {/* BUTTON */}
       <button
-        onClick={() => toggleHabit(habit.id)}
+        onClick={() => {
+          console.log({
+            streak,
+            thisWeek,
+            isCompleted,
+            completedDates: habit.completedDates,
+          });
+          toggleHabit(habit.id)
+        }}
         className={`
-          w-full
-          py-4
-          rounded-2xl
-          font-semibold
-          border
-          transition-all duration-300
-
-          ${
-            isDoneToday
-              ? `
-                border-green-500/30
-                bg-green-500/10
-                text-green-400
-              `
-              : `
-                border-orange-500/30
-                text-orange-400
-                hover:bg-orange-500/10
-              `
+    w-full
+    py-4
+    rounded-2xl
+    font-semibold
+    border
+    transition-all duration-300
+    ${isCompleted
+            ? `
+          border-green-500/30
+          bg-green-500/10
+          text-green-400
+        `
+            : `
+          border-orange-500/30
+          text-orange-400
+          hover:bg-orange-500/10
+        `
           }
-        `}
+  `}
       >
-        {isDoneToday ? "✓ Done Today" : "Mark Complete"}
+        {isCompleted
+          ? "✓ Tap to Undo"
+          : "Mark Complete"}
       </button>
     </div>
   );
